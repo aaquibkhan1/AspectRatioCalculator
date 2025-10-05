@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap:https://aaquibkhan1.github.io/AspectRatioCalculator/sitemap.xml
