@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aspect Ratio Calculator - Calculate Screen & Image Ratios Instantly</title>
+    <meta name="description" content="Free online Aspect Ratio Calculator - calculate screen ratios, image dimensions, and resize visuals while maintaining perfect proportions. Works for social media, videos, and displays.">
+    <meta name="keywords" content="aspect ratio calculator, calculate screen ratio, image aspect ratio tool, ratio calculator, screen ratio calculator, aspect ratio tool">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Aspect Ratio Calculator",
+      "url": "https://yourdomain.com/aspect-ratio-calculator",
+      "description": "Free online tool to calculate aspect ratios for images, screens, and videos. Maintain perfect proportions when resizing visual content.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --error: #e63946;
+            --gray: #6c757d;
+            --transition: all 0.3s ease;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Page Content */
+        .page-content {
+            flex: 1;
+            padding: 40px 0;
+            display: none;
+        }
+        
+        .page-content.active {
+            display: block;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 50px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        /* Calculator Section */
+        .calculator {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        @media (max-width: 900px) {
+            .calculator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .calculator-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .input-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .input-error {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .ratio-presets {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .ratio-btn {
+            padding: 12px;
+            background: var(--light);
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            border: none;
+            font-family: inherit;
+            font-size: inherit;
+        }
+        
+        .ratio-btn:hover {
+            background: #edf2f7;
+        }
+        
+        .ratio-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-family: inherit;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .results {
+            background: #f1f8ff;
+            padding: 30px;
+            border-radius: var(--radius);
+            height: fit-content;
+        }
+        
+        .result-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #d0e4ff;
+        }
+        
+        .result-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .result-title {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+        
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .ratio-visualization {
+            height: 200px;
+            background: linear-gradient(45deg, #4361ee, #3a0ca3);
+            border-radius: var(--radius);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ratio-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid white;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--secondary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        @media (max-width: 900px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .feature-card {
+            background: var(--light);
+            padding: 30px;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* How To Section */
+        .how-to {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            counter-reset: step-counter;
+        }
+        
+        @media (max-width: 900px) {
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .step {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            position: relative;
+            padding-left: 80px;
+        }
+        
+        .step:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 20px;
+            top: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #e6ecff;
+        }
+        
+        .step-title {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        /* Legal Pages */
+        .legal-content {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .legal-content h1 {
+            color: var(--secondary);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .legal-content h2 {
+            color: var(--primary);
+            margin: 25px 0 15px;
+        }
+        
+        .legal-content p {
+            margin-bottom: 15px;
+            color: var(--gray);
+        }
+        
+        .legal-content ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        
+        .legal-content li {
+            margin-bottom: 8px;
+            color: var(--gray);
+        }
+        
+        /* Contact Page Styles */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .contact-card {
+            background: var(--light);
+            padding: 30px;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .contact-detail {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+        
+        .gmail-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #d14836;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            margin-top: 15px;
+        }
+        
+        .gmail-btn:hover {
+            background: #b03c2d;
+            transform: translateY(-2px);
+        }
+        
+        .email-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .email-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .footer-heading {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #b0b7c3;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #4b5563;
+            color: #b0b7c3;
+        }
+        
+        /* Mobile Nav Toggle */
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--dark);
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: var(--shadow);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: var(--transition);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .calculator, .legal-content {
+                padding: 25px;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        button:focus, 
+        .ratio-btn:focus,
+        input:focus,
+        a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo" data-page="home">
+                    <i class="fas fa-calculator"></i>
+                    RatioCalc
+                </a>
+                <div class="nav-links">
+                    <a href="#" data-page="home">Calculator</a>
+                    <a href="#" data-page="privacy">Privacy</a>
+                    <a href="#" data-page="terms">Terms</a>
+                    <a href="#" data-page="disclaimer">Disclaimer</a>
+                    <a href="#" data-page="about">About</a>
+                    <a href="#" data-page="contact">Contact</a>
+                </div>
+                <button class="mobile-toggle" aria-label="Toggle navigation menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <main id="home" class="page-content active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Aspect Ratio Calculator</h1>
+                <p>Instantly calculate aspect ratios for images, videos, and screens. Maintain perfect proportions when resizing your visual content.</p>
+                <a href="#calculator" class="btn">Calculate Ratio <i class="fas fa-arrow-down"></i></a>
+            </div>
+        </section>
+
+        <!-- Calculator Section -->
+        <section class="calculator" id="calculator">
+            <div class="container">
+                <h2 class="calculator-title">Aspect Ratio Calculator</h2>
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="width">Width (px)</label>
+                            <input type="number" id="width" placeholder="Enter width" min="1">
+                            <div class="input-error" id="width-error">Please enter a valid positive number</div>
+                        </div>
+                        <div class="input-group">
+                            <label for="height">Height (px)</label>
+                            <input type="number" id="height" placeholder="Enter height" min="1">
+                            <div class="input-error" id="height-error">Please enter a valid positive number</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Common Ratios</label>
+                            <div class="ratio-presets">
+                                <button class="ratio-btn" data-ratio="16:9">16:9</button>
+                                <button class="ratio-btn" data-ratio="4:3">4:3</button>
+                                <button class="ratio-btn" data-ratio="1:1">1:1</button>
+                                <button class="ratio-btn" data-ratio="2:3">2:3</button>
+                                <button class="ratio-btn" data-ratio="3:2">3:2</button>
+                                <button class="ratio-btn" data-ratio="21:9">21:9</button>
+                            </div>
+                        </div>
+                        
+                        <button id="calculate-btn" class="btn btn-block">Calculate Ratio</button>
+                        <button id="reset-btn" class="btn btn-block" style="background: var(--gray); margin-top: 10px;">Reset</button>
+                    </div>
+                    
+                    <div class="results">
+                        <h3 style="margin-bottom: 20px; color: var(--secondary);">Results</h3>
+                        <div class="result-item">
+                            <div class="result-title">Aspect Ratio</div>
+                            <div class="result-value" id="ratio-result">-</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-title">Ratio Percentage</div>
+                            <div class="result-value" id="percentage-result">-</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-title">Simplified Ratio</div>
+                            <div class="result-value" id="simplified-result">-</div>
+                        </div>
+                        
+                        <div class="ratio-visualization">
+                            <div class="ratio-box" id="ratio-box"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Why Use Our Aspect Ratio Calculator?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="feature-title">Instant Results</h3>
+                        <p>Get aspect ratio calculations in real-time as you type, with no waiting.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3 class="feature-title">Visual Representation</h3>
+                        <p>See a visual representation of your aspect ratio for better understanding.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Fully Responsive</h3>
+                        <p>Works perfectly on all devices - desktop, tablet, and mobile.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <h3 class="feature-title">Common Ratios</h3>
+                        <p>Quickly select from common aspect ratios used in media and design.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3 class="feature-title">Privacy Focused</h3>
+                        <p>All calculations happen in your browser - no data is sent to servers.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Fast & Lightweight</h3>
+                        <p>Optimized for speed with minimal code and fast loading times.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How To Section -->
+        <section class="how-to">
+            <div class="container">
+                <h2 class="section-title">How To Use The Aspect Ratio Calculator</h2>
+                <div class="steps">
+                    <div class="step">
+                        <h3 class="step-title">Enter Dimensions</h3>
+                        <p>Input the width and height of your image or screen in pixels. You can also select from common ratios.</p>
+                    </div>
+                    <div class="step">
+                        <h3 class="step-title">Calculate Ratio</h3>
+                        <p>Click the calculate button to see your aspect ratio, ratio percentage, and simplified ratio.</p>
+                    </div>
+                    <div class="step">
+                        <h3 class="step-title">Use The Results</h3>
+                        <p>Use the calculated ratio to resize your content while maintaining the correct proportions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Privacy Policy Page -->
+    <div id="privacy" class="page-content">
+        <div class="container">
+            <div class="legal-content">
+                <h1>Privacy Policy</h1>
+                
+                <p>At Aspect Ratio Calculator, your privacy is very important to us. This policy explains how we collect and use your information.</p>
+                
+                <h2>Information We Collect</h2>
+                <ul>
+                    <li>Non-personal data like browser type, device, and usage patterns.</li>
+                    <li>Personal data you provide via contact forms (name, email).</li>
+                </ul>
+                
+                <h2>How We Use Your Data</h2>
+                <ul>
+                    <li>To improve website experience.</li>
+                    <li>To respond to inquiries.</li>
+                    <li>To display relevant ads.</li>
+                </ul>
+                
+                <h2>Cookies</h2>
+                <p>We may use cookies for analytics and better user experience. You can disable cookies in your browser settings.</p>
+                
+                <h2>Third-Party Services</h2>
+                <p>Services like Google AdSense and Google Analytics may collect data following their privacy policies.</p>
+                
+                <h2>Contact Us</h2>
+                <p>If you have questions, email us at: <a href="mailto:aaquibkhan743@gmail.com" class="email-link">aaquibkhan743@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Page -->
+    <div id="terms" class="page-content">
+        <div class="container">
+            <div class="legal-content">
+                <h1>Terms & Conditions</h1>
+                
+                <p>By using Aspect Ratio Calculator, you agree to these terms:</p>
+                
+                <h2>Use of Website</h2>
+                <p>You can use the site for personal and non-commercial purposes. Do not misuse the website or its tools.</p>
+                
+                <h2>Intellectual Property</h2>
+                <p>All content and tools are owned by the website owner.</p>
+                
+                <h2>Disclaimer</h2>
+                <p>The calculator is for informational purposes. We are not responsible for any loss from using it.</p>
+                
+                <h2>Changes</h2>
+                <p>We may update these terms anytime. Continued use means you accept the new terms.</p>
+                
+                <h2>Contact</h2>
+                <p>Email us at: <a href="mailto:aaquibkhan743@gmail.com" class="email-link">aaquibkhan743@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disclaimer Page -->
+    <div id="disclaimer" class="page-content">
+        <div class="container">
+            <div class="legal-content">
+                <h1>Disclaimer</h1>
+                
+                <p>The Aspect Ratio Calculator is for informational purposes only.</p>
+                
+                <p>We do not guarantee the results will always be accurate.</p>
+                
+                <p>We are not responsible for any loss or damage from using this website.</p>
+                
+                <p>Use the calculator at your own risk.</p>
+                
+                <p>For any questions, contact us at: <a href="mailto:aaquibkhan743@gmail.com" class="email-link">aaquibkhan743@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page-content">
+        <div class="container">
+            <div class="legal-content">
+                <h1>About Us</h1>
+                
+                <p>Aspect Ratio Calculator is a free online tool to help users calculate and understand aspect ratios for images and videos.</p>
+                
+                <p>Our goal is to make resizing and adjusting media easier for everyone.</p>
+                
+                <p>Simple, fast, and free to use.</p>
+                
+                <p>Contact us at: <a href="mailto:aaquibkhan743@gmail.com" class="email-link">aaquibkhan743@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page-content">
+        <div class="container">
+            <div class="legal-content">
+                <h1>Contact Us</h1>
+                
+                <p>We'd love to hear from you! Reach out to us with any questions or feedback.</p>
+                
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h2>Email</h2>
+                        <p class="contact-detail">Send us an email directly:</p>
+                        <a href="mailto:aaquibkhan743@gmail.com?subject=Aspect Ratio Calculator Inquiry&body=Hello, I have a question about the Aspect Ratio Calculator:" class="gmail-btn">
+                            <i class="fab fa-google"></i> Email via Gmail
+                        </a>
+                        <p class="contact-detail" style="margin-top: 15px;">Or copy: aaquibkhan743@gmail.com</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h2>Feedback</h2>
+                        <p>We're constantly working to improve our tool. Let us know if you have any suggestions!</p>
+                        <p>Email: <a href="mailto:aaquibkhan743@gmail.com" class="email-link">aaquibkhan743@gmail.com</a></p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h2>Report an Issue</h2>
+                        <p>If you encounter any problems with the calculator, please contact us so we can fix it.</p>
+                        <p>Email: <a href="mailto:aaquibkhan743@gmail.com" class="email-link">aaquibkhan743@gmail.com</a></p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h2>Feature Requests</h2>
+                        <p>Have an idea for a new feature? We'd love to hear about it!</p>
+                        <p>Email: <a href="mailto:aaquibkhan743@gmail.com" class="email-link">aaquibkhan743@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 class="footer-heading">RatioCalc</h3>
+                    <p>The free online tool for calculating aspect ratios for images, videos, and screens.</p>
+                    <p>Contact: <a href="mailto:aaquibkhan743@gmail.com" class="email-link" style="color: #b0b7c3;">aaquibkhan743@gmail.com</a></p>
+                </div>
+                <div>
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="home">Calculator</a></li>
+                        <li><a href="#" data-page="about">About</a></li>
+                        <li><a href="#" data-page="contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-heading">Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-page="terms">Terms & Conditions</a></li>
+                        <li><a href="#" data-page="disclaimer">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 RatioCalc. All rights reserved. | Contact: <a href="mailto:aaquibkhan743@gmail.com" style="color: #b0b7c3;">aaquibkhan743@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileToggle.innerHTML = navLinks.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            mobileToggle.setAttribute('aria-label', 
+                navLinks.classList.contains('active') ? 'Close navigation menu' : 'Open navigation menu');
+        });
+        
+        // Page Navigation
+        const pageLinks = document.querySelectorAll('[data-page]');
+        
+        pageLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                
+                // Hide all pages
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show selected page
+                document.getElementById(pageId).classList.add('active');
+                
+                // Close mobile menu if open
+                navLinks.classList.remove('active');
+                mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                mobileToggle.setAttribute('aria-label', 'Open navigation menu');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            });
+        });
+        
+        // Aspect Ratio Calculator
+        const widthInput = document.getElementById('width');
+        const heightInput = document.getElementById('height');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const ratioResult = document.getElementById('ratio-result');
+        const percentageResult = document.getElementById('percentage-result');
+        const simplifiedResult = document.getElementById('simplified-result');
+        const ratioBox = document.getElementById('ratio-box');
+        const ratioButtons = document.querySelectorAll('.ratio-btn');
+        const widthError = document.getElementById('width-error');
+        const heightError = document.getElementById('height-error');
+        
+        // Calculate GCD for simplifying ratios
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+        
+        // Validate input
+        function validateInput(value, errorElement) {
+            if (value === '' || isNaN(value) || value <= 0) {
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        // Calculate aspect ratio
+        function calculateRatio() {
+            const width = parseInt(widthInput.value);
+            const height = parseInt(heightInput.value);
+            
+            // Validate inputs
+            const isWidthValid = validateInput(width, widthError);
+            const isHeightValid = validateInput(height, heightError);
+            
+            if (!isWidthValid || !isHeightValid) {
+                return;
+            }
+            
+            const ratio = width / height;
+            const ratioText = width + ':' + height;
+            
+            // Calculate simplified ratio
+            const divisor = gcd(width, height);
+            const simplifiedWidth = width / divisor;
+            const simplifiedHeight = height / divisor;
+            const simplifiedText = simplifiedWidth + ':' + simplifiedHeight;
+            
+            // Update results
+            ratioResult.textContent = ratioText;
+            percentageResult.textContent = (ratio * 100).toFixed(2) + '%';
+            simplifiedResult.textContent = simplifiedText;
+            
+            // Update visualization
+            updateVisualization(width, height);
+        }
+        
+        // Update ratio visualization
+        function updateVisualization(width, height) {
+            const container = document.querySelector('.ratio-visualization');
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
+            
+            let boxWidth, boxHeight;
+            
+            if (width / height > containerWidth / containerHeight) {
+                boxWidth = containerWidth * 0.8;
+                boxHeight = boxWidth * (height / width);
+            } else {
+                boxHeight = containerHeight * 0.8;
+                boxWidth = boxHeight * (width / height);
+            }
+            
+            ratioBox.style.width = boxWidth + 'px';
+            ratioBox.style.height = boxHeight + 'px';
+        }
+        
+        // Set ratio from preset
+        function setRatioFromPreset(ratio) {
+            const [width, height] = ratio.split(':').map(Number);
+            widthInput.value = width;
+            heightInput.value = height;
+            
+            // Clear any errors
+            widthError.style.display = 'none';
+            heightError.style.display = 'none';
+            
+            calculateRatio();
+        }
+        
+        // Reset calculator
+        function resetCalculator() {
+            widthInput.value = '';
+            heightInput.value = '';
+            ratioResult.textContent = '-';
+            percentageResult.textContent = '-';
+            simplifiedResult.textContent = '-';
+            ratioBox.style.width = '0';
+            ratioBox.style.height = '0';
+            
+            // Clear errors
+            widthError.style.display = 'none';
+            heightError.style.display = 'none';
+            
+            // Remove active class from ratio buttons
+            ratioButtons.forEach(btn => btn.classList.remove('active'));
+        }
+        
+        // Event Listeners
+        calculateBtn.addEventListener('click', calculateRatio);
+        resetBtn.addEventListener('click', resetCalculator);
+        
+        // Input validation on blur
+        widthInput.addEventListener('blur', () => {
+            validateInput(parseInt(widthInput.value), widthError);
+        });
+        
+        heightInput.addEventListener('blur', () => {
+            validateInput(parseInt(heightInput.value), heightError);
+        });
+        
+        // Input fields calculate on Enter key
+        widthInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') calculateRatio();
+        });
+        
+        heightInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') calculateRatio();
+        });
+        
+        // Ratio preset buttons
+        ratioButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                ratioButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                setRatioFromPreset(btn.dataset.ratio);
+            });
+            
+            // Add keyboard support for ratio buttons
+            btn.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    ratioButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    setRatioFromPreset(btn.dataset.ratio);
+                }
+            });
+        });
+        
+        // Initialize with a common ratio
+        window.addEventListener('load', () => {
+            setRatioFromPreset('16:9');
+            document.querySelector('[data-ratio="16:9"]').classList.add('active');
+        });
+        
+        // Responsive adjustments for visualization on resize
+        window.addEventListener('resize', () => {
+            if (widthInput.value && heightInput.value) {
+                updateVisualization(parseInt(widthInput.value), parseInt(heightInput.value));
+            }
+        });
+    </script>
+</body>
+</html>
